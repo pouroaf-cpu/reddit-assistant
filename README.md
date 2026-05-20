@@ -1,13 +1,17 @@
 # reddit-assistant
 
-Polls Reddit subreddits for posts matching keywords, drafts a reply using the Anthropic API in a configured voice, and sends the draft to a Telegram chat for manual review. It never auto-posts to Reddit.
+Monitors Reddit subreddits for posts matching keywords related to TRT and peptide use. 
+When a match is found, it summarises the post and sends it to Telegram so you can 
+manually read it, write your own reply, and post it yourself.
+
+The script never writes replies, never posts to Reddit, and never acts automatically.
 
 ## How it works
 
-1. Scans `subreddits.txt` for new posts
+1. Scans `subreddits.txt` for new posts every 10 minutes
 2. Matches post titles/bodies against `keywords.txt`
-3. Drafts a reply in the voice defined in `voice.md`
-4. Sends draft to Telegram — you decide whether to post it
+3. Summarises the post — core question, key details, what the person needs
+4. Sends the summary to Telegram so you can decide whether to respond manually
 
 ## Setup
 
@@ -16,11 +20,6 @@ Polls Reddit subreddits for posts matching keywords, drafts a reply using the An
 copy .env.example .env   # then fill in real keys
 & "C:\Program Files\Python39\python.exe" main.py
 ```
-
-> **Known issue:** `main.py` imports `drafter` before calling `load_dotenv()`, so
-> the Anthropic client is built before keys are loaded. The project will crash at
-> startup until you fix it: move `load_dotenv()` above the `from drafter …` line in
-> `main.py`.
 
 ## Keys required
 
@@ -35,7 +34,6 @@ copy .env.example .env   # then fill in real keys
 
 | File | Why |
 |------|-----|
-| `voice.md` | Tune your tone, add example phrases that land well |
 | `keywords.txt` | Add new triggers as you find better ones |
 | `subreddits.txt` | Add/remove subs |
 
