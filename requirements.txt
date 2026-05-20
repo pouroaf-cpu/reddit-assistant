@@ -1,0 +1,4 @@
+praw
+anthropic
+python-dotenv
+requests
